@@ -1,0 +1,105 @@
+// index.html
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css">
+    <script src="socket.io/socket.io.js" defer></script>
+    <script src="script.js" defer></script>
+    <title>Chat app</title>
+  </head>
+  <body>
+    <div id="container">
+      <h1 style="color:red">        Chat application      </h1>
+      <div id="chat-Section">
+        <div class="chat-window"></div>
+        <form class="chat-form">
+          <label class="chat-label" style="color:blue">            Type your message:
+            <input type="text" class="chat-input" />
+          </label>
+          <input type="submit" align="center" class="chat-submit" value="enter" />
+        </form>
+      </div>
+    </div>
+
+  </body>
+</html>
+```
+
+
+```css
+//style.css
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+#container {
+    width: 700px;
+    margin: 0 auto;
+}
+
+.chat-input {
+  width: 300px;
+    height: 35px;
+    border: solid 1px #444;
+}
+
+  .chat-submit {
+  width: 50px;
+  height: 35px;
+  border: solid 1px #444;
+}
+
+.chat-window {
+  height: 300px;
+  width: 400px;
+     }
+
+#chat-Section {
+  float: left;
+  border: 1px grey solid;
+  border-radius: 10px;
+       padding: 10px;
+     }
+```
+
+```js
+// index.js
+const express_app = require('express')
+const chat_app = express_app()
+const server = require('http').createServer(chat_app)
+const port = process.env.PORT || 5000
+const io = require('socket.io')(server)
+const path = require('path')
+
+chat_app.use(express_app.static(path.join(__dirname + '/public')))
+io.on('connection', socket => {
+  console.log('A client is on line')
+})
+
+server.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
+});
+
+io.on('connection', socket => {
+  console.log('Some client connected');
+
+  socket.on('chat', message => {
+    console.log('From client: ', message);
+  });
+});
+```
+
+```js
+// public/script.js
+const socket = io();
+
+const chat = document.querySelector('.chat-form');
+const input = document.querySelector('.cinput');
+
+chat.addEventListener('submit', event => {
+  event.preventDefault();
+  socket.emit('chat', input.value);
+  input.value = ""
+});
