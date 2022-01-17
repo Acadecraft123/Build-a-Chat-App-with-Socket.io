@@ -1,3 +1,4 @@
+html
 // index.html
 <!DOCTYPE html>
 <html>
@@ -10,7 +11,7 @@
   <body>
     <div id="container">
       <h1 style="color:red">        Chat application      </h1>
-      <div id="chat-Section">
+      <div id="chat-section">
         <div class="chat-window"></div>
         <form class="chat-form">
           <label class="chat-label" style="color:blue">            Type your message:
@@ -20,13 +21,13 @@
         </form>
       </div>
     </div>
-
+          
   </body>
 </html>
-```
 
 
-```css
+
+css
 //style.css
 .container::after {
   content: "";
@@ -45,7 +46,7 @@
     border: solid 1px #444;
 }
 
-  .chat-submit {
+.chat-submit {
   width: 50px;
   height: 35px;
   border: solid 1px #444;
@@ -56,7 +57,7 @@
   width: 400px;
      }
 
-#chat-Section {
+#chat-section {
   float: left;
   border: 1px grey solid;
   border-radius: 10px;
@@ -66,14 +67,14 @@
 
 ```js
 // index.js
-const express_app = require('express')
-const chat_app = express_app()
-const server = require('http').createServer(chat_app)
+const expressApp = require('express')
+const chatApp = expressApp()
+const server = require('http').createServer(chatApp)
 const port = process.env.PORT || 5000
-const io = require('socket.io')(server)
+const io = require('Socket.IO')(server)
 const path = require('path')
 
-chat_app.use(express_app.static(path.join(__dirname + '/public')))
+chatApp.use(expressApp.static(path.join(__dirname + '/public')))
 io.on('connection', socket => {
   console.log('A client is on line')
 })
@@ -89,9 +90,9 @@ io.on('connection', socket => {
     console.log('From client: ', message);
   });
 });
-```
 
-```js
+
+js
 // public/script.js
 const socket = io();
 
