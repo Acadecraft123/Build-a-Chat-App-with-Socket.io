@@ -40,6 +40,18 @@ css
     margin: 0 auto;
 }
 
+.chat-window {
+  height: 300px;
+  width: 400px;
+     }
+
+#chat-section {
+  float: left;
+  border: 1px grey solid;
+  border-radius: 10px;
+   padding: 10px;
+     }
+
 .chat-input {
   width: 300px;
     height: 35px;
@@ -51,18 +63,6 @@ css
   height: 35px;
   border: solid 1px #444;
 }
-
-.chat-window {
-  height: 300px;
-  width: 400px;
-     }
-
-#chat-section {
-  float: left;
-  border: 1px grey solid;
-  border-radius: 10px;
-       padding: 10px;
-     }
 ```
 
 ```js
@@ -71,10 +71,10 @@ const expressApp = require('express')
 const chatApp = expressApp()
 const server = require('http').createServer(chatApp)
 const port = process.env.PORT || 5000
-const io = require('Socket.IO')(server)
+const io = require('socket.io')(server)
 const path = require('path')
 
-chatApp.use(expressApp.static(path.join(__dirname + '/public')))
+chatApp.use(expressApp.static(path.join(__dirname)))
 io.on('connection', socket => {
   console.log('A client is on line')
 })
@@ -97,10 +97,10 @@ js
 const socket = io();
 
 const chat = document.querySelector('.chat-form');
-const input = document.querySelector('.cinput');
+const Input = document.querySelector('.chat-input');
 
 chat.addEventListener('submit', event => {
   event.preventDefault();
-  socket.emit('chat', input.value);
-  input.value = ""
+  socket.emit('chat', Input.value);
+  Input.value = ""
 });
